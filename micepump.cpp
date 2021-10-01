@@ -6,6 +6,9 @@
 #include <Windows.h>
 #include <fstream>
 #include <sstream>
+#include <ctime>
+#include <cstdlib>
+
 
 struct Runner
 {
@@ -15,6 +18,7 @@ struct Runner
         std::ofstream m{ fname };
         m << "!!BEGIN!!";
         m.close();
+        srand(time(NULL));
     }
 
     virtual ~Runner()
@@ -46,12 +50,18 @@ struct Runner
 
 protected:
 
+    int randcoord()
+    {
+        return rand() % 1000 + 1;
+    }
+
     void sendev()
     {
         INPUT input;
         input.type = INPUT_MOUSE;
-        input.mi.dx = 0;
-        input.mi.dy = 0;
+        input.mi.dx = randcoord();
+        input.mi.dy = randcoord();
+
         input.mi.dwFlags = (MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE | MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP);
         input.mi.mouseData = 0; 
         input.mi.dwExtraInfo = NULL;
